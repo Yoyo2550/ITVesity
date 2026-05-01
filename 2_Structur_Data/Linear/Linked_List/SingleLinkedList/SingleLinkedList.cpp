@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+struct Node{
+    char name[100];
+    Node *next;
+}*head, *tail, *curr;
+
+
+int main(){
+    int input;
+    char name[50];
+
+    do{
+        system("cls");        
+        printf("===== Data =====\n");
+        // view();
+        printf("================\n");
+        printf("1. Insert\n");
+        printf("2. Delet\n");
+        printf("0. Exit\n");
+        printf("Input : ");
+        scanf("%d", &input);
+        switch (input)
+        {
+            case 1:
+            printf("Name : ");
+            scanf("%s", name);
+            // push(name);
+            break;
+            
+            case 2:
+            printf("Name : ");
+            scanf("%s", name);
+            // pop(name);
+            break;
+            
+            default:
+            break;
+        }
+    } while (input != 0);
+}
