@@ -41,8 +41,39 @@ void preOrder(Data *node){
     }    
 }
 
+void inOrder(Data *node){
+    if (root == NULL){
+        printf("NULL");    
+    }else{
+        if (node == NULL) return;
+        
+        inOrder(node->left);
+        printf("%d -> ", node->num);
+        inOrder(node->right);
+    }    
+}
+
+void postOrder(Data *node){
+    if (root == NULL){
+        printf("NULL");    
+    }else{
+        if (node == NULL) return;
+        
+        postOrder(node->left);
+        postOrder(node->right);
+        printf("%d -> ", node->num);
+    }    
+}
+
 void view(){
+    printf("Preorder  : ");
     preOrder(root);
+    puts("");
+    printf("Inorder   : ");
+    inOrder(root);
+    puts("");
+    printf("Postorder : ");
+    postOrder(root);
     puts("");
 }
 
