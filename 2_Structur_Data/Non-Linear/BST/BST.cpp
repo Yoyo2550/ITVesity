@@ -29,6 +29,47 @@ void push(int num){
     root = insert(root,num);
 }
 
+Data *findMid(Data *node){
+    while (node->left != NULL){
+        node = node->left;
+    }
+    return node;
+}
+
+Data *delt(Data *node, int num){
+    if (node == NULL){
+        return NULL;
+    }
+
+    if (num < node->num){
+        node->left = delt(node->left, num);
+    }else if (num > node->num){
+        node->right = delt(node->right, num);
+    }else{
+        if (node->right == NULL && node->left == NULL){
+            free(node);
+            return NULL;
+        }else if (node->right == NULL){
+            Data *temp = node->left;
+            free(node);
+            return temp;
+        }else if (node->left == NULL){
+            Data *temp = node->right;
+            free(node);
+            return temp;
+        }else{
+            Data *temp = findMid(node->right);
+            node->num = temp->num;
+            node->right = delt(node->right, temp->num);
+        }
+    }
+    return node;
+}
+
+void pop(int num){
+    root = delt(root,num);
+}
+
 void preOrder(Data *node){
     if (root == NULL){
         printf("NULL");    
@@ -85,7 +126,7 @@ int main(){
         view();
         printf("==============\n");
         printf("1. Insert\n");
-        printf("1. Delete\n");
+        printf("2. Delete\n");
         printf("0. Exit\n");
         printf("Input : ");
         scanf("%d",&input);
@@ -100,11 +141,11 @@ int main(){
         case 2:
             printf("Number : ");
             scanf("%d", &num);
+            pop(num);
             break;
 
         default:
             break;
         }
     } while (input != 0);
-    
 }
