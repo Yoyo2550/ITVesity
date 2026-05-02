@@ -8,6 +8,27 @@ struct Node{
     Node *next, *prev;
 }*head, *tail, *curr;
 
+Node *insert(char name[]){
+    curr = (Node*) malloc (sizeof(Node));
+    
+    strcpy(curr->name, name);
+    
+    curr->next = curr->prev = NULL;
+    return curr;
+}
+
+void push(char name[]){
+    curr = insert(name);
+
+    if (head == NULL){
+        head = tail = curr;
+    }else{
+        tail->next = curr;
+        curr->prev = tail;
+        tail = curr;
+    }
+}
+
 int main(){
     int input;
     char name[50];
