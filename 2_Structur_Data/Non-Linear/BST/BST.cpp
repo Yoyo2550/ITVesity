@@ -17,18 +17,44 @@ Data *insert(Data *node, int num){
         
         curr->left = curr->right = NULL;
         return curr;
+    }else if (num < node->num){
+        node->left = insert(node->left, num);
+    }else if (num > node->num){
+        node->right = insert(node->right, num);
     }
+    return node;
+}
+
+void push(int num){
+    root = insert(root,num);
+}
+
+void preOrder(Data *node){
+    if (root == NULL){
+        printf("NULL");    
+    }else{
+        if (node == NULL) return;
+        
+        printf("%d -> ", node->num);
+        preOrder(node->left);
+        preOrder(node->right);
+    }    
+}
+
+void view(){
+    preOrder(root);
+    puts("");
 }
 
 int main(){
     int input, num;
     do{
-        printf("==== Data ====");
-        //view();
-        printf("==============");
-        printf("1. Insert");
-        printf("1. Delete");
-        printf("0. Exit");
+        printf("==== Data ====\n");
+        view();
+        printf("==============\n");
+        printf("1. Insert\n");
+        printf("1. Delete\n");
+        printf("0. Exit\n");
         printf("Input : ");
         scanf("%d",&input);
         switch (input)
