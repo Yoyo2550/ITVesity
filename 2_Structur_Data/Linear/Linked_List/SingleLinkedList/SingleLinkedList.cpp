@@ -8,6 +8,16 @@ struct Node{
     Node *next;
 }*head, *tail, *curr;
 
+void view(){
+    int no = 0;
+    curr = head;
+    while (curr != NULL){
+        printf("%d | %s\n", no+1, curr->name);
+        curr = curr->next;
+        no++;
+    }
+}
+
 void push(char name[]){
     curr = (Node*) malloc (sizeof(Node));
     
