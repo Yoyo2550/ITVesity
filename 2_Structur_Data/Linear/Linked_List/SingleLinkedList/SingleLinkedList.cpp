@@ -77,7 +77,7 @@ int main(){
     do{
         system("cls");        
         printf("===== Data =====\n");
-        // view();
+        view();
         printf("================\n");
         printf("1. Insert\n");
         printf("2. Delet\n");
