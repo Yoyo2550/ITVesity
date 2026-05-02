@@ -49,6 +49,7 @@ void view(){
 int main(){
     int input, num;
     do{
+        system("cls");
         printf("==== Data ====\n");
         view();
         printf("==============\n");
@@ -62,7 +63,7 @@ int main(){
         case 1:
             printf("Number : ");
             scanf("%d", &num);
-            //push(num);
+            push(num);
             break;
 
         case 2:
