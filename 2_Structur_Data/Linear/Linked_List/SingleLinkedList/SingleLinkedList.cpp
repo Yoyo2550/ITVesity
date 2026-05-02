@@ -8,6 +8,57 @@ struct Node{
     Node *next;
 }*head, *tail, *curr;
 
+void push(char name[]){
+    curr = (Node*) malloc (sizeof(Node));
+    
+    strcpy(curr->name, name);
+
+    curr->next = NULL;
+
+    if (head == NULL){
+        head = tail = curr;
+    }else{
+        tail->next = curr;
+        tail = curr;
+    }
+}
+
+void pop(char name[]){
+    if (head != NULL){
+        if (head == tail){
+            head = tail = NULL;
+        }else{
+            if (strcmp(name, head->name) == 0){
+                curr = head;
+                free(curr);
+                head = head->next;
+            }else if (strcmp(name, tail->name) == 0){
+                Node *temp;
+
+                curr = head;
+                while (curr->next != tail){
+                    curr = curr->next;
+                }
+                temp = curr->next;
+                curr->next = tail->next;
+                free(temp);
+                tail = curr;
+            }else{
+                Node *temp;
+
+                curr = head;
+                while (curr->next != NULL && strcmp(name, curr->next->name) != 0){
+                    curr = curr->next;
+                }
+
+                temp = curr->next;
+                curr->next = temp->next;
+                free(temp);
+            }
+        }
+    }
+}
+    
 
 int main(){
     int input;
@@ -28,13 +79,13 @@ int main(){
             case 1:
             printf("Name : ");
             scanf("%s", name);
-            // push(name);
+            push(name);
             break;
             
             case 2:
             printf("Name : ");
             scanf("%s", name);
-            // pop(name);
+            pop(name);
             break;
             
             default:
