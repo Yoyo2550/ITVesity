@@ -29,13 +29,52 @@ void push(char name[]){
     }
 }
 
+void pop(char name[]){
+    if (head == tail){
+        head = tail = NULL;
+    }else{
+        if (strcmp(name,head->name) == 0){
+            curr = head;
+            head = curr->next;
+            free(curr);
+            head->prev = NULL;
+        }else if (strcmp(name,tail->name) == 0){
+            curr = tail;
+            tail = curr->prev;
+            free(curr);
+            tail->next = NULL;
+        }else{
+            Node *temp;
+            curr = head;
+            while (curr->next != NULL && strcmp(name,curr->next->name) != 0){
+                curr = curr->next;
+            }
+            
+            temp = curr->next;
+            curr->next = temp->next;
+            temp->next->prev = curr;
+            free(temp);
+        }
+    }    
+}
+
+void view(){
+    int no = 0;
+    curr = head;
+    while (curr != NULL){
+        printf("%d | %s\n", no+1, curr->name);
+        curr = curr->next;
+        no++;
+    }
+}
+
 int main(){
     int input;
     char name[50];
     do{
         system("cls");        
         printf("===== Data =====\n");
-        // view();
+        view();
         printf("================\n");
         printf("1. Insert\n");
         printf("2. Delet\n");
@@ -47,13 +86,13 @@ int main(){
             case 1:
             printf("Name : ");
             scanf("%s", name);
-            // push(name);
+            push(name);
             break;
             
             case 2:
             printf("Name : ");
             scanf("%s", name);
-            // pop(name);
+            pop(name);
             break;
             
             default:
