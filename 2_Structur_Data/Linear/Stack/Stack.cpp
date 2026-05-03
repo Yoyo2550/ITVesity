@@ -8,12 +8,43 @@ struct Node{
     Node *next, *prev;
 }*head, *tail, *curr;
 
+void view(){
+    curr = head;
+    while (curr != NULL){
+        printf("%s\n", curr->name);
+        curr = curr->next;
+    }
+}
+
 Node *insert(char name[]){
     curr  = (Node*) malloc (sizeof(Node));
 
     strcpy(curr->name, name);
     curr->next = curr->prev = NULL;
     return curr;
+}
+
+void push(char name[]){
+    curr = insert(name);
+
+    if (head == NULL){
+        head = tail = curr;
+    }else{
+        head->prev = curr;
+        curr->next = head;
+        head = curr;
+    }
+}
+
+void pop(){
+    if (head == tail){
+        head = tail = NULL;
+    }else{
+        curr = head;
+        head = head->next;
+        free(curr);
+        head->prev = NULL;
+    }
 }
 
 
@@ -23,7 +54,7 @@ int main(){
     do{
         system("cls");
         printf("==== Data ====\n");
-        // view();
+        view();
         printf("==============\n");
         printf("1. Insert\n");
         printf("2. Delete\n");
@@ -34,11 +65,11 @@ int main(){
         case 1:
             printf("Name : ");
             scanf("%s", name);
-            // push(name);
+            push(name);
             break;
         
         case 2:
-            // pop();
+            pop();
             break;
 
         default:
