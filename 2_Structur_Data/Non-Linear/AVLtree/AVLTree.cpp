@@ -66,14 +66,14 @@ Node *leftRotaion(Node *curr){
     return child;
 }
 
-Node *insert(Node *curr, int value){
+Node *insertNode(Node *curr, int value){
     //1. Serch node = NULL
     if (curr == NULL){
         curr = newNode(value);
     }else if (value < curr->value){
-        curr->left = insert(curr->left, value);
+        curr->left = insertNode(curr->left, value);
     }else if (value > curr->value){
-        curr->right = insert(curr->right, value);
+        curr->right = insertNode(curr->right, value);
     }
 
     //2. Update Hight;
@@ -83,10 +83,10 @@ Node *insert(Node *curr, int value){
     int bf = balanceFactor(curr);
 
     //4. Rotasi
-    if (bf > 1 && value < curr->left->value){
-        return rightRotaion(curr);
-    }else if (bf > 1 && value > curr->left->value){
-        curr->left = leftRotaion(curr->left);
+    if (bf > 1 && value < curr->left->value){ //Case : LL (Berat Kiri Kiri)
+        return rightRotaion(curr); //Solve : Rotasi Ke Kanan
+    }else if (bf > 1 && value > curr->left->value){ //Case : LR (Berat Kiri Kanan)
+        curr->left = leftRotaion(curr->left); //Solve : Rotasi Ke Kiri dulu -> Ke Kanan
         return rightRotaion(curr);
     }else if (bf < -1 && value > curr->right->value){
         return leftRotaion(curr);
@@ -96,7 +96,63 @@ Node *insert(Node *curr, int value){
     }
     
     return curr;
-}    
+}
+
+Node *preDecssor(Node *curr){
+    curr = curr->left;
+    while (curr->right != NULL){
+        curr = curr->right;
+    }
+    return curr;
+}
+
+Node *deleteNode(Node *curr, int value){
+    if (curr == NULL){
+        return NULL;
+    }else if (value < curr->value){
+        curr->left = deleteNode(curr->left, value);
+    }else if (value > curr->value){
+        curr->right = deleteNode(curr->right, value);
+    }else{    
+        if (curr->left == NULL && curr->right == NULL){
+            free(curr);
+            return NULL;
+        }else if (curr->right == NULL){
+            Node *temp = curr->left;
+            free(curr);
+            return temp;
+        }else if (curr->left == NULL){
+            Node *temp = curr->right;
+            free(curr);
+            return temp;
+        }else{
+            Node *temp = preDecssor(curr);
+            curr->value = temp->value;
+            curr->left = deleteNode(curr->left,temp->value);
+        }
+    }
+
+    if (curr == NULL) return NULL;
+    
+
+    curr->height = getMax(getHeight(curr->left),getHeight(curr->right))+1;
+
+    int bf = balanceFactor(curr);
+
+    if (bf > 1 && balanceFactor(curr->left) >= 0){
+        return rightRotaion(curr);
+    }else if (bf > 1 && balanceFactor(curr->left) < 0){
+        curr->left = leftRotaion(curr->left);
+        return rightRotaion(curr);
+    }else if (bf < -1 && balanceFactor(curr->right) <= 0){
+        return leftRotaion(curr);
+    }else if (bf < -1 && balanceFactor(curr->right) > 0){
+        curr->right = rightRotaion(curr->right);
+        return leftRotaion(curr);
+    }
+    
+    return curr;
+}
 
 void preOrder(Node *curr){
     if (curr != NULL){
@@ -106,8 +162,28 @@ void preOrder(Node *curr){
     }
 }
 
+void InOrder(Node *curr){
+    if (curr != NULL){
+        InOrder(curr->left);
+        printf("%d->",curr->value);
+        InOrder(curr->right);
+    }
+}
+
+void postOrder(Node *curr){
+    if (curr != NULL){
+        postOrder(curr->left);
+        postOrder(curr->right);
+        printf("%d->",curr->value);
+    }
+}
+
 void view(){
     preOrder(root);
+    puts("");
+    InOrder(root);
+    puts("");
+    postOrder(root);
     puts("");
 }
 
@@ -128,13 +204,13 @@ int main(){
         case 1:
             printf("Number : ");
             scanf("%d", &value);
-            root = insert(root,value);
+            root = insertNode(root,value);
             break;
 
         case 2:
             printf("Number : ");
             scanf("%d", &value);
-            //pop(num);
+            root = deleteNode(root,value);
             break;
 
         default:
