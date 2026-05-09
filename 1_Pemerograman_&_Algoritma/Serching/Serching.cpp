@@ -17,6 +17,10 @@ int main(){
     scanf("%d", &input);
 
     int num = serch(input);
-    printf("Number is idex: %d", num);
-    
+    if (num == -1){
+        printf("NULL");
+    }else{
+        printf("Number is idex: %d", num);
+    }
+    return 0;
 }
